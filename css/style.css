@@ -1,0 +1,23 @@
+/* Estilos generales de la billetera */
+body {
+    background-color: #f4f7f6;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+}
