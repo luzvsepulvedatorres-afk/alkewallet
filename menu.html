@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alke Wallet - Menú Principal</title>
-    <!-- Bootstrap para los diseños -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <!-- Archivo CSS separado -->
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Menú Principal - Wall-et</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Menú Principal</h2>
-            <a href="login.html" class="btn btn-outline-danger">Cerrar Sesión</a>
-        </div>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow text-center p-4">
+                    <h2 class="mb-3">Bienvenido a tu Billetera</h2>
+                    
+                    <!-- Saldo actual que se actualiza dinámicamente -->
+                    <div class="alert alert-success">
+                        <h4>Saldo Actual:</h4>
+                        <h1 id="balanceDisplay">$1000</h1>
+                    </div>
 
-        <div class="card p-4 mb-4">
-            <h4>Saldo Actual</h4>
-            <h2 class="text-success">$ <span id="saldo">500.000</span> CLP</h2>
-        </div>
+                    <div class="d-grid gap-3 mt-4">
+                        <a href="deposit.html" class="btn btn-primary btn-lg">Depositar</a>
+                        <a href="sendmoney.html" class="btn btn-warning btn-lg text-white">Enviar Dinero</a>
+                        <a href="transactions.html" class="btn btn-secondary btn-lg">Últimos Movimientos</a>
+                    </div>
 
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <a href="deposit.html" class="btn btn-primary btn-block">Depositar Dinero</a>
-            </div>
-            <div class="col-md-4 mb-3">
-                <a href="sendmoney.html" class="btn btn-warning btn-block">Enviar Dinero</a>
-            </div>
-            <div class="col-md-4 mb-3">
-                <a href="transactions.html" class="btn btn-secondary btn-block">Ver Transacciones</a>
+                    <div class="mt-4">
+                        <a href="login.html" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Script de la carpeta js -->
+    <!-- Script para cargar el saldo -->
     <script src="js/menu.js"></script>
 </body>
 </html>

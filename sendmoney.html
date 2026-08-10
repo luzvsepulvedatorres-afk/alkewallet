@@ -3,29 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alke Wallet - Enviar Dinero</title>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <!-- Archivo CSS separado -->
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Enviar Dinero - Wall-et</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-light">
     <div class="container mt-5">
-        <div class="card p-4">
-            <h2 class="text-center mb-4">Enviar Dinero</h2>
-            <form id="sendForm">
-                <div class="form-group">
-                    <label for="contacto">Contacto o Cuenta:</label>
-                    <input type="text" class="form-control" id="contacto" placeholder="Nombre o número de cuenta" required>
+        <h2 class="mb-4 text-center">Enviar Dinero</h2>
+        
+        <!-- Botón para abrir el formulario emergente (Modal) de Bootstrap -->
+        <div class="mb-4 text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal">
+                Agregar nuevo contacto
+            </button>
+        </div>
+
+        <!-- Lista de contactos guardados para enviar dinero -->
+        <div class="card shadow p-4 mb-4">
+            <h4>Selecciona un contacto para transferir:</h4>
+            <div id="contactsList" class="list-group my-3">
+                <!-- Los contactos se cargarán dinámicamente aquí -->
+            </div>
+            <div class="mb-3">
+                <label for="sendAmount" class="form-label">Monto a enviar ($):</label>
+                <input type="number" class="form-control" id="sendAmount" placeholder="Ej: 2000" min="1">
+            </div>
+            <button id="btnSendMoney" class="btn btn-success">Enviar Dinero</button>
+        </div>
+
+        <a href="menu.html" class="btn btn-secondary">Volver al Menú</a>
+    </div>
+
+    <!-- Modal para Agregar Nuevo Contacto -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Nuevo Contacto</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#contactModal" aria-label="Close"></button>
                 </div>
-                <div class="form-group">
-                    <label for="montoEnvio">Monto a enviar (CLP):</label>
-                    <input type="number" class="form-control" id="montoEnvio" placeholder="Ej: 5000" required>
+                <div class="modal-body">
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <label for="contactName" class="form-label">Nombre y Apellido</label>
+                            <input type="text" class="form-control" id="contactName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contactCbu" class="form-label">Número de CBU</label>
+                            <input type="text" class="form-control" id="contactCbu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contactAlias" class="form-label">Alias</label>
+                            <input type="text" class="form-control" id="contactAlias" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contactBank" class="form-label">Nombre del Banco</label>
+                            <input type="text" class="form-control" id="contactBank" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Guardar Contacto</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-warning btn-block text-white">Realizar Transferencia</button>
-            </form>
-            <a href="menu.html" class="btn btn-secondary btn-block mt-3">Volver al Menú</a>
+            </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS (necesario para que funcione el modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script de lógica de envíos -->
+    <script src="js/sendmoney.js"></script>
 </body>
 </html>
