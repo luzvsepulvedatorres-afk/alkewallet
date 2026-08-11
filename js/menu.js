@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtener el saldo de localStorage o inicializarlo en 1000 si no existe
     let currentBalance = localStorage.getItem("userBalance");
     
     if (currentBalance === null) {
@@ -7,6 +6,15 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem("userBalance", currentBalance);
     }
 
-    // Mostrar el saldo en pantalla
     document.getElementById("balanceDisplay").innerText = "$" + parseFloat(currentBalance).toLocaleString();
 });
+
+// Función para mostrar la leyenda exigida por el profesor y luego redirigir
+function redirigir(url, nombrePantalla) {
+    let mensajeDiv = document.getElementById("mensajeRedireccion");
+    mensajeDiv.innerText = "Redirigiendo a " + nombrePantalla + "...";
+    
+    setTimeout(function() {
+        window.location.href = url;
+    }, 800); // Espera 0.8 segundos para que se lea la leyenda antes de abrir la otra página
+}

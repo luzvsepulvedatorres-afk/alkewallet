@@ -21,10 +21,13 @@
                     </div>
 
                     <div class="d-grid gap-3 mt-4">
-                        <a href="deposit.html" class="btn btn-primary btn-lg">Depositar</a>
-                        <a href="sendmoney.html" class="btn btn-warning btn-lg text-white">Enviar Dinero</a>
-                        <a href="transactions.html" class="btn btn-secondary btn-lg">Últimos Movimientos</a>
-                    </div>
+    <button onclick="redirigir('deposit.html', 'depósito')" class="btn btn-primary btn-lg">Depositar</button>
+    <button onclick="redirigir('sendmoney.html', 'enviar dinero')" class="btn btn-warning btn-lg text-white">Enviar Dinero</button>
+    <button onclick="redirigir('transactions.html', 'últimos movimientos')" class="btn btn-secondary btn-lg">Últimos Movimientos</button>
+</div>
+
+<!-- Leyenda que pide el profesor -->
+<div id="mensajeRedireccion" class="mt-3 text-center text-primary fw-bold"></div>
 
                     <div class="mt-4">
                         <a href="login.html" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
