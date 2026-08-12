@@ -1,34 +1,38 @@
-document.getElementById("depositForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita que la página se recargue por defecto
+$(document).ready(function() {
+    // Buscamos el formulario por su ID en español
+    $('#formularioDeposito').submit(function(event) {
+        event.preventDefault(); // Evita que la página se recargue
 
-    // 1. Obtener el monto ingresado
-    let amount = parseFloat(document.getElementById("depositAmount").value);
+        // Obtenemos el valor usando el ID en español: montoDeposito
+        let montoInput = $('#montoDeposito').val();
+        let monto = parseFloat(montoInput);
 
-    if (isNaN(amount) || amount <= 0) {
-        alert("Por favor, ingresa un monto válido.");
-        return;
-    }
+        // Validación básica en español
+        if (isNaN(monto) || monto <= 0) {
+            alert("Por favor, ingresa un monto válido mayor a 0.");
+            return;
+        }
 
-    // 2. Obtener el saldo actual de localStorage (si no existe, comienza en 0 o un monto base)
-    let currentBalance = parseFloat(localStorage.getItem("userBalance")) || 1000; // Asumimos 1000 de base si no hay nada
+        // 1. Obtener datos actuales del almacenamiento local
+        let saldoActual = parseFloat(localStorage.getItem("userBalance")) || 0;
+        let transacciones = JSON.parse(localStorage.getItem("misTransacciones")) || [];
 
-    // 3. Sumar el depósito al saldo
-    let newBalance = currentBalance + amount;
+        // 2. Actualizar saldo y agregar al historial
+        saldoActual += monto;
+        
+        transacciones.push({
+            tipo: "depósito",
+            descripcion: "Depósito en cuenta",
+            monto: monto,
+            fecha: new Date().toLocaleDateString()
+        });
 
-    // 4. Guardar el nuevo saldo en localStorage
-    localStorage.setItem("userBalance", newBalance);
+        // 3. Guardar en el localStorage
+        localStorage.setItem("userBalance", saldoActual);
+        localStorage.setItem("misTransacciones", JSON.stringify(transacciones));
 
-    // 5. Registrar el movimiento para la pantalla de transacciones
-    let transactions = JSON.parse(localStorage.getItem("userTransactions")) || [];
-    transactions.push({
-        type: "Depósito",
-        amount: amount,
-        date: new Date().toLocaleDateString()
+        // 4. Notificar éxito en español y redirigir
+        alert("¡Depósito exitoso! Tu nuevo saldo es: $" + saldoActual.toLocaleString());
+        window.location.href = 'menu.html';
     });
-    localStorage.setItem("userTransactions", JSON.stringify(transactions));
-
-    alert("¡Depósito realizado con éxito! Nuevo saldo: $" + newBalance);
-
-    // 6. Redirigir al menú principal
-    window.location.href = "menu.html";
 });

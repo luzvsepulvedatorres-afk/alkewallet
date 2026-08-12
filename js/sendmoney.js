@@ -1,89 +1,102 @@
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
     cargarContactos();
 
-    // 1. Guardar nuevo contacto desde el formulario emergente
-    document.getElementById("contactForm").addEventListener("submit", function(event) {
+    // Evento para enviar dinero al contacto seleccionado
+    $('#btnSendMoney').click(function(event) {
         event.preventDefault();
 
-        let name = document.getElementById("contactName").value;
-        let cbu = document.getElementById("contactCbu").value;
-        let alias = document.getElementById("contactAlias").value;
-        let bank = document.getElementById("contactBank").value;
+        // 1. Obtener el monto ingresado
+        let montoInput = $('#sendAmount').val();
+        let monto = parseFloat(montoInput);
 
-        let contactos = JSON.parse(localStorage.getItem("userContacts")) || [];
-        contactos.push({ name, cbu, alias, bank });
-        localStorage.setItem("userContacts", JSON.stringify(contactos));
+        // 2. Obtener el contacto seleccionado (radio button)
+        let contactoSeleccionado = $('input[name="contactoSeleccionado"]:checked').val();
 
-        alert("¡Contacto agregado con éxito!");
-        document.getElementById("contactForm").reset();
-        
-        // Recargar la lista de contactos
-        cargarContactos();
-    });
-
-    // 2. Enviar dinero al contacto seleccionado
-    document.getElementById("btnSendMoney").addEventListener("click", function() {
-        let selectedContact = document.querySelector('input[name="selectedContact"]:checked');
-        let amount = parseFloat(document.getElementById("sendAmount").value);
-
-        if (!selectedContact) {
-            alert("Por favor, selecciona un contacto de la lista.");
+        // 3. Validaciones
+        if (!contactoSeleccionado) {
+            alert("Por favor, selecciona un contacto para transferir.");
             return;
         }
 
-        if (isNaN(amount) || amount <= 0) {
-            alert("Por favor, ingresa un monto válido a enviar.");
+        if (isNaN(monto) || monto <= 0) {
+            alert("Por favor, ingresa un monto válido mayor a 0.");
             return;
         }
 
-        let currentBalance = parseFloat(localStorage.getItem("userBalance")) || 1000;
+        // 4. Verificar saldo actual en el localStorage
+        let saldoActual = parseFloat(localStorage.getItem("userBalance")) || 0;
 
-        if (amount > currentBalance) {
+        if (monto > saldoActual) {
             alert("Saldo insuficiente para realizar esta transferencia.");
             return;
         }
 
-        // Restar saldo
-        let newBalance = currentBalance - amount;
-        localStorage.setItem("userBalance", newBalance);
+        // 5. Actualizar saldo y registrar la transferencia
+        saldoActual -= monto;
 
-        // Registrar movimiento
-        let transactions = JSON.parse(localStorage.getItem("userTransactions")) || [];
-        transactions.push({
-            type: "Envío de dinero a " + selectedContact.value,
-            amount: -amount,
-            date: new Date().toLocaleDateString()
+        let transacciones = JSON.parse(localStorage.getItem("misTransacciones")) || [];
+        transacciones.push({
+            tipo: "transferencia",
+            descripcion: "Transferencia a " + contactoSeleccionado,
+            monto: monto,
+            fecha: new Date().toLocaleDateString()
         });
-        localStorage.setItem("userTransactions", JSON.stringify(transactions));
 
-        alert("¡Transferencia de $" + amount + " realizada con éxito a " + selectedContact.value + "!");
-        window.location.href = "menu.html";
+        // 6. Guardar cambios en el localStorage
+        localStorage.setItem("userBalance", saldoActual);
+        localStorage.setItem("misTransacciones", JSON.stringify(transacciones));
+
+        // 7. Notificar éxito y redirigir
+        alert("¡Transferencia exitosa a " + contactoSeleccionado + "! Nuevo saldo: $" + saldoActual.toLocaleString());
+        window.location.href = 'menu.html';
+    });
+
+    // Evento para guardar un nuevo contacto desde el modal
+    $('#contactForm').submit(function(event) {
+        event.preventDefault();
+
+        let nuevoContacto = {
+            nombre: $('#contactName').val(),
+            cbu: $('#contactCbu').val(),
+            alias: $('#contactAlias').val(),
+            banco: $('#contactBank').val()
+        };
+
+        let contactos = JSON.parse(localStorage.getItem("misContactos")) || [];
+        contactos.push(nuevoContacto);
+        localStorage.setItem("misContactos", JSON.stringify(contactos));
+
+        alert("¡Contacto guardado con éxito!");
+        
+        // Limpiar formulario y cerrar modal
+        this.reset();
+        $('#contactModal').modal('hide');
+        
+        // Recargar lista de contactos
+        cargarContactos();
     });
 });
 
-// Función para mostrar los contactos en pantalla
+// Función para renderizar los contactos en la interfaz
 function cargarContactos() {
-    let container = document.getElementById("contactsList");
-    container.innerHTML = "";
+    let contactos = JSON.parse(localStorage.getItem("misContactos")) || [];
+    let contenedorContactos = $('#contactsList');
+    contenedorContactos.empty();
 
-    let contactos = JSON.parse(localStorage.getItem("userContacts")) || [
-        { name: "Juan Pérez", cbu: "1234567890", alias: "juan.perez", bank: "Banco Estado" } // Contacto por defecto de prueba
-    ];
-
-    // Si no hay contactos guardados, guardamos el de prueba por defecto
-    if (localStorage.getItem("userContacts") === null) {
-        localStorage.setItem("userContacts", JSON.stringify(contactos));
+    if (contactos.length === 0) {
+        contenedorContactos.append('<p class="text-muted text-center my-3">No tienes contactos guardados. Agrega uno nuevo.</p>');
+        return;
     }
 
-    contactos.forEach((c, index) => {
-        container.innerHTML += `
-            <label class="list-group-item d-flex gap-3">
-                <input class="form-check-input flex-shrink-0" type="radio" name="selectedContact" value="${c.name} (${c.bank})" style="font-size: 1.375rem;">
-                <span>
-                    <strong>${c.name}</strong><br>
-                    <small class="text-muted">CBU: ${c.cbu} | Alias: ${c.alias} | Banco: ${c.bank}</small>
-                </span>
-            </label>
-        `;
+    contactos.forEach(function(c, index) {
+        contenedorContactos.append(`
+            <div class="form-check p-3 border rounded mb-2 bg-white">
+                <input class="form-check-input" type="radio" name="contactoSeleccionado" id="contacto${index}" value="${c.nombre} (${c.alias})">
+                <label class="form-check-label w-100 ms-2" for="contacto${index}">
+                    <strong>${c.nombre}</strong><br>
+                    <small class="text-muted">Alias: ${c.alias} | CBU: ${c.cbu} | Banco: ${c.banco}</small>
+                </label>
+            </div>
+        `);
     });
 }

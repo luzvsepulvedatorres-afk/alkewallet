@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Últimos Movimientos - Wall-et</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <h2 class="mb-4 text-center">Últimos Movimientos</h2>
-        
+
+        <div class="mb-3">
+            <label for="filtroTransaccion" class="form-label">Filtrar por:</label>
+            <select id="filtroTransaccion" class="form-select">
+                <option value="todos">Todos los movimientos</option>
+                <option value="deposito">Depósitos</option>
+                <option value="transferencia">Transferencias</option>
+            </select>
+        </div>
+
         <div class="card shadow p-4 mb-4">
-            <ul id="transactionsList" class="list-group">
+            <ul id="listaTransacciones" class="list-group">
                 <!-- Los movimientos se cargarán aquí dinámicamente -->
             </ul>
         </div>
@@ -20,6 +31,14 @@
         <a href="menu.html" class="btn btn-secondary">Volver al Menú</a>
     </div>
 
+    <!-- 1. jQuery CDN (Obligatorio) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- 2. Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- 3. Tu script de transacciones -->
     <script src="js/transactions.js"></script>
 </body>
+
 </html>

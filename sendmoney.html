@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enviar Dinero - Wall-et</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <h2 class="mb-4 text-center">Enviar Dinero</h2>
-        
+
         <!-- Botón para abrir el formulario emergente (Modal) de Bootstrap -->
         <div class="mb-4 text-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal">
@@ -40,7 +42,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="contactModalLabel">Nuevo Contacto</h5>
-                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#contactModal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#contactModal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="contactForm">
@@ -69,7 +72,11 @@
 
     <!-- Bootstrap JS (necesario para que funcione el modal) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Script de lógica de envíos -->
+
+    <!-- 1. Carga jQuery primero -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- 2. Luego carga tu script correcto para enviar dinero -->
     <script src="js/sendmoney.js"></script>
 </body>
 </html>
